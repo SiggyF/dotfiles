@@ -2,6 +2,9 @@
 # Shamelessly copied from https://github.com/gf3/dotfiles
 # Screenshot: http://i.imgur.com/s0Blh.png
 
+
+
+
 if [[ $COLORTERM = gnome-* && $TERM = xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
     export TERM=gnome-256color
 elif infocmp xterm-256color >/dev/null 2>&1; then
@@ -52,14 +55,28 @@ function parse_git_branch() {
     git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/"
 }
 
+# Doesn't work because $? is not 0 anymore...
+function smiley() {
+     if [ $? = 0 ];
+     then
+          echo "\[$GREEN\]:)\[$RESET\]";
+     else
+          echo "\[$ORANGE\]:(\[$RESET\]";
+     fi
+}
+
 
 user="\[${BOLD}${MAGENTA}\]\u"
 host="\[$WHITE\]at \[$ORANGE\]\h"
 dir="\[$WHITE\]in \[$GREEN\]\w"
-gitinfo="\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$PURPLE\]\$(parse_git_branch)"
 jobs="\[$ORANGE\] j:\j"
 history="\[$WHITE\]\!"
+gitinfo="\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$PURPLE\]\$(parse_git_branch)"
 prompt="\[$WHITE\]\n\$"
-date="\[$GREEN\]$(date +"%m-%d %H:%M")"
-export PS1="$history $user $host $dir $gitinfo $jobs $date $prompt \[$RESET\]"
+date="\[$GREEN\]\t"
+reset="\[\033[m\]" # the tput sgr0 reset is not working inside emacs
+
+# TODO replace by PROMPT_COMMAND as discussed here
+# http://stackoverflow.com/a/15673542/386327
+export PS1="$history $user $host $dir $gitinfo $jobs $date $prompt $reset"
 export PS2="\[$ORANGE\]→ \[$RESET\]"
