@@ -8,6 +8,9 @@ alias .....="cd ../../../.."
 alias e="emacsclient -n"
 alias nb="ipython notebook --pylab=inline --script"
 
+alias mysqlstart='sudo mysqld_safe'
+alias mysqlstop='mysqladmin -u root -p shutdown'
+
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
         colorflag="--color"
@@ -64,7 +67,4 @@ alias spoton="sudo mdutil -a -i on"
 # find . -name .gitattributes | map dirname
 alias map="xargs -n1"
 
-# Use emacs-app from macports if available
-emacsapp=/Applications/MacPorts/Emacs.app/Contents/MacOS/Emacs
-command -v $emacsapp  >/dev/null && alias emacs=$emacsapp
 

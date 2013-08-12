@@ -71,3 +71,6 @@
 
 [push]
 	default = matching
+[user]
+	name = Fedor Baart
+	email = fedor.baart@deltares.nl

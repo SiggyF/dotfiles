@@ -1,8 +1,6 @@
 # Add `~/bin` to the `$PATH`
 export PATH="$HOME/.local/bin:$PATH"
 
-# Add latex stuff
-[ -f /usr/texbin ] && export PATH=/usr/texbin:$PATH
 
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
@@ -11,9 +9,6 @@ for file in ~/.{path,bash_prompt,exports,aliases,functions,extra}; do
         [ -r "$file" ] && source "$file"
 done
 unset file
-
-# Case-insensitive globbing (used in pathname expansion)
-shopt -s nocaseglob
 
 # Append to the Bash history file, rather than overwriting it
 shopt -s histappend
