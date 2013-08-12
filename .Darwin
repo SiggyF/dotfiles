@@ -1,0 +1,27 @@
+export DYLD_LIBRARY_PATH=~/.local/lib:$DYLD_LIBRARY_PATH
+
+# Add macports stuff
+[ -f /opt/local ] && export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+# Setup bash completion
+[ -f /opt/local/etc/bash_completion ] && source /opt/local/etc/bash_completion
+[ -f /opt/local/etc/profile.d/cdargs-bash.sh ] && source /opt/local/etc/profile.d/cdargs-bash.sh
+
+export LC_CTYPE=en_US.UTF-8
+
+# Add tab completion for `defaults read|write NSGlobalDomain`
+# You could just use `-g` instead, but I like being explicit
+complete -W "NSGlobalDomain" defaults
+
+# Add `killall` tab completion for common apps
+complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes SystemUIServer Terminal Twitter" killall
+
+
+# Matlab
+# Add latex stuff
+[ -f /usr/texbin ] && export PATH=/usr/texbin:$PATH
+[ -f /Applications/MATLAB_R2012a.app ] && export PATH=$PATH:/Applications/MATLAB_R2012a.app/bin
+
+# Use emacs-app from macports if available
+emacsapp=/Applications/MacPorts/Emacs.app/Contents/MacOS/Emacs
+command -v $emacsapp  >/dev/null && alias emacs=$emacsapp
+
