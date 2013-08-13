@@ -1,6 +1,3 @@
-# Add `~/bin` to the `$PATH`
-export PATH="$HOME/.local/bin:$PATH"
-
 
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
@@ -30,4 +27,4 @@ done
 [ -f /etc/bash_completion ] && source /etc/bash_completion
 
 
-source .$(uname)
+source ~/.$(uname)
