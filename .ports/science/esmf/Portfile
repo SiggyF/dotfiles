@@ -1,0 +1,76 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id:  $
+
+PortSystem                  1.0
+PortGroup                   muniversal 1.0
+
+name                        esmf
+version                     5_2_0rp2
+revision                    0
+maintainers                 baart
+platforms                   darwin
+categories                  science
+license                     University of Illinois-NCSA License
+
+description                 Earth System Modeling Framework
+long_description \
+    The Earth System Modeling Framework (ESMF) collaboration is \
+    building high-performance, flexible software infrastructure to \
+    increase ease of use, performance portability, interoperability, \
+    and reuse in climate, numerical weather prediction, data \
+    assimilation, and other Earth science applications. The ESMF \
+    defines an architecture for composing complex, coupled modeling \
+    systems and includes data structures and utilities for developing \
+    individual models.
+
+homepage                    http://http://www.earthsystemmodeling.org
+
+distfiles                   ${name}_${version}_src.tar.gz
+master_sites                http://www.earthsystemmodeling.org/esmf_releases/public/ESMF_5_2_0rp2
+checksums           md5     6945a728c0aa9e1a28f50da09663d38c \
+                    sha1    949c3af23858b88242a4876e3e4097942a31e3e2 \
+                    rmd160  175094729574eaadf6d5a5cda804711e00548040 \
+                    sha256  507bf091f34aed4c9776bb28b97f34853c1a397a3951ae03e10b4de127cbb431
+
+depends_lib         port:netcdf
+
+# Fortran compilers can not cross-compile
+if {${os.arch} == "i386"} {
+    set universal_archs_supported "i386 x86_64"
+} else {
+    set universal_archs_supported "ppc ppc64"
+}
+
+#patchfiles          patch-esmf...
+
+
+configure {
+    # we don't need to configure, manual using environment variables
+}
+
+worksrcdir                  ${name}
+build.env                   ESMF_DIR=${worksrcpath}
+build {
+    cd ${worksrcpath} && make
+}
+
+
+test.run                    yes
+test.target                 check
+
+destroot.destdir            prefix=${destroot}${prefix} \
+                            MANDIR=\\\${prefix}/share/man
+
+if {![variant_isset gcc48]} {
+    default_variants +gcc47
+}
+
+
+variant gcc47 conflicts gcc48 description {Enable Fortran support with gfortran 4.7} {
+    configure.compiler      macports-gcc-4.7
+}
+
+variant gcc48 conflicts gcc47 description {Enable Fortran support with gfortran 4.8} {
+    configure.compiler      macports-gcc-4.8
+}
+
