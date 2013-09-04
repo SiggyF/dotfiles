@@ -5,7 +5,12 @@ export DYLD_LIBRARY_PATH=~/.local/lib:$DYLD_LIBRARY_PATH
 [ -f /opt/local/etc/profile.d/cdargs-bash.sh ] && source /opt/local/etc/profile.d/cdargs-bash.sh
 
 # virtualenvs (workon)
-[ -f /opt/local/Library/Frameworks/Python.framework/Versions/2.7/bin/virtualenvwrapper_lazy.sh ] && source /opt/local/Library/Frameworks/Python.framework/Versions/2.7/bin/virtualenvwrapper_lazy.sh
+# symlink this to /opt/local/Library/Frameworks/Python.framework/Versions/2.7/bin/virtualenvwrapper_lazy.sh
+# virtualenvs
+export WORKON_HOME=$HOME/.virtualenvs
+export VIRTUALENVWRAPPER_LOG_DIR="$WORKON_HOME"
+export VIRTUALENVWRAPPER_HOOK_DIR="$WORKON_HOME"
+[ -f ~/.local/bin/virtualenvwrapper_lazy.sh ] && source ~/.local/bin/virtualenvwrapper_lazy.sh
 
 export LC_CTYPE=en_US.UTF-8
 
