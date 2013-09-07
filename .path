@@ -1,7 +1,11 @@
 # Add `~/bin` to the `$PATH`
 export PATH="$HOME/.local/bin:$PATH"
 
+# ruby gems
+[ -d ~/.gem/ruby/1.8/bin ] && export PATH=$PATH:~/.gem/ruby/1.8/bin
 
+# add commands like cv etc...
+[ -f /usr/share/doc/cdargs/examples/cdargs-bash.sh ] && source /usr/share/doc/cdargs/examples/cdargs-bash.sh
 
 # Matlab
 [ -d /Applications/MATLAB_R2012a.app ] && export PATH=$PATH:/Applications/MATLAB_R2012a.app/bin
