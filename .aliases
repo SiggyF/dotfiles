@@ -67,4 +67,6 @@ alias spoton="sudo mdutil -a -i on"
 # find . -name .gitattributes | map dirname
 alias map="xargs -n1"
 
+# don't bother me
+alias R='R --no-save'
 
