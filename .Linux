@@ -1,1 +1,2 @@
 export LD_LIBRARY_PATH=~/.local/lib:$LD_LIBRARY_PATH
+command -v gnome-open  >/dev/null && alias open=gnome-open
