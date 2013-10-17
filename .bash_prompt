@@ -47,37 +47,44 @@ export BOLD
 export RESET
 
 
-function parse_git_dirty() {
-    [[ $(git status 2> /dev/null | tail -n1) != *"working directory clean"* ]] && echo "*"
+
+
+function updateprompt() {
+    # check the last command
+    ERR=$?
+    if [ $ERR = 0 ]
+    then smiley="\[$GREEN\]:)\[$RESET\]"
+    else smiley="\[$ORANGE\]:(\[$RESET\]"
+    fi
+    [ -z "$PS1" ] && return
+    processes=$(ps -o fname= | sed 's/\(ps\|bash\|sed\)//g')
+
+    if command -v git >/dev/null;
+    then
+        dirtyflag=$(
+            if [[ $(git status 2>/dev/null | tail -n1) != *"Working directory clean"* ]]; then
+                echo "*"
+            fi
+        )
+        gitbranch=$(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$dirtyflag/")
+    fi
+    # Doesn't work because $? is not 0 anymore...
+
+    user="\[${BOLD}${MAGENTA}\]\u"
+    host="\[$WHITE\]at \[$ORANGE\]\h"
+    dir="\[$WHITE\]in \[$GREEN\]\w"
+    jobs="\[$ORANGE\] j:\j"
+    history="\[$WHITE\]\!"
+    gitinfo="\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$PURPLE\]\$gitbranch"
+    # for humans $, for root #
+    prompt="\[$WHITE\]\n\\$"
+    date="\[$GREEN\]\t"
+    reset="\[\033[m\]" # the tput sgr0 reset is not working inside emacs
+
+    echo -ne "\033]0;${PWD}:$processes\007"
+    export PS1="$smiley $history $user $host$reset $dir$reset $gitinfo$reset $jobs$reset $date$reset $prompt $reset"
+    export PS2="\[$ORANGE\]→ \[$RESET\]"
 }
 
-function parse_git_branch() {
-    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/"
-}
-
-# Doesn't work because $? is not 0 anymore...
-function smiley() {
-     if [ $? = 0 ];
-     then
-          echo "\[$GREEN\]:)\[$RESET\]";
-     else
-          echo "\[$ORANGE\]:(\[$RESET\]";
-     fi
-}
-
-
-user="\[${BOLD}${MAGENTA}\]\u"
-host="\[$WHITE\]at \[$ORANGE\]\h"
-dir="\[$WHITE\]in \[$GREEN\]\w"
-jobs="\[$ORANGE\] j:\j"
-history="\[$WHITE\]\!"
-gitinfo="\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$PURPLE\]\$(parse_git_branch)"
-prompt="\[$WHITE\]\n\$"
-date="\[$GREEN\]\t"
-reset="\[\033[m\]" # the tput sgr0 reset is not working inside emacs
-
-# TODO replace by PROMPT_COMMAND as discussed here
-# http://stackoverflow.com/a/15673542/386327
-export PROMPT_COMMAND='echo "setting prompt"'
-export PS1="$history $user $host$reset $dir$reset $gitinfo$reset $jobs$reset $date$reset $prompt $reset"
-export PS2="\[$ORANGE\]→ \[$RESET\]"
+#use the function to make a dynamic PS1
+PROMPT_COMMAND=updateprompt
