@@ -5,9 +5,7 @@
 # Screenshot: http://i.imgur.com/s0Blh.png
 
 
-
-
-if [[ $COLORTERM = gnome-* && $TERM = xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
+if [[ $COLORTERM = gnome-* && $TERM = xterm* ]] && infocmp gnome-256color >/dev/null 2>&1; then
     export TERM=gnome-256color
 elif infocmp xterm-256color >/dev/null 2>&1; then
     export TERM=xterm-256color
@@ -97,7 +95,8 @@ function updateprompt() {
     # The window title, only if running gnome-terminal
     # TODO: check for capable terminal
     [[ -v COLORTERM ]] && echo -ne "\033]0;${PWD}:$processes\007"
-
+    # No smiley in emacs
+    [[ ! -v COLORTERM ]] && smiley=
     # Now set the prompts
     export PS1="$smiley $history $user $host$reset $dir$reset $gitinfo$reset $jobs$reset $date$reset $prompt $reset"
     export PS2="\[$ORANGE\]→ \[$RESET\]"
