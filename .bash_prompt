@@ -64,7 +64,7 @@ function updateprompt() {
     if command -v git >/dev/null;
     then
         dirtyflag=$(
-            if [[ $(git status 2>/dev/null | tail -n1) != *"Working directory clean"* ]]; then
+            if [[ $(git status 2>/dev/null | tail -n1) != *"directory clean"* ]]; then
                 echo "*"
             fi
         )
