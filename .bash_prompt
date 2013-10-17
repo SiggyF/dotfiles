@@ -54,13 +54,23 @@ export RESET
 function updateprompt() {
     # check the last command
     ERR=$?
-    if [ $ERR = 0 ]
-    then smiley="\[$GREEN\]:)\[$RESET\]"
-    else smiley="\[$ORANGE\]:(\[$RESET\]"
-    fi
+    # If we don't have an interactive shell, bail out
     [ -z "$PS1" ] && return
+
+    # A nice smiley
+    if [ $ERR = 0 ]
+    then
+        smiley="\[$GREEN\]:)\[$RESET\]"
+    else
+        smiley="\[$ORANGE\]:(\[$RESET\]"
+    fi
+
+    # A list of running processes
+    # TODO better cleanup list
     processes=$(ps -o fname= | sed 's/\(ps\|bash\|sed\)//g')
 
+    # If we have git, check the status of the current directory
+    # Don't do this with svn, too slow
     if command -v git >/dev/null;
     then
         dirtyflag=$(
@@ -70,8 +80,9 @@ function updateprompt() {
         )
         gitbranch=$(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$dirtyflag/")
     fi
-    # Doesn't work because $? is not 0 anymore...
 
+
+    # Colors pls
     user="\[${BOLD}${MAGENTA}\]\u"
     host="\[$WHITE\]at \[$ORANGE\]\h"
     dir="\[$WHITE\]in \[$GREEN\]\w"
@@ -83,7 +94,11 @@ function updateprompt() {
     date="\[$GREEN\]\t"
     reset="\[\033[m\]" # the tput sgr0 reset is not working inside emacs
 
-    echo -ne "\033]0;${PWD}:$processes\007"
+    # The window title, only if running gnome-terminal
+    # TODO: check for capable terminal
+    [[ -v COLORTERM ]] && echo -ne "\033]0;${PWD}:$processes\007"
+
+    # Now set the prompts
     export PS1="$smiley $history $user $host$reset $dir$reset $gitinfo$reset $jobs$reset $date$reset $prompt $reset"
     export PS2="\[$ORANGE\]→ \[$RESET\]"
 }
