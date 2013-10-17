@@ -78,5 +78,6 @@ reset="\[\033[m\]" # the tput sgr0 reset is not working inside emacs
 
 # TODO replace by PROMPT_COMMAND as discussed here
 # http://stackoverflow.com/a/15673542/386327
+export PROMPT_COMMAND='echo "setting prompt"'
 export PS1="$history $user $host$reset $dir$reset $gitinfo$reset $jobs$reset $date$reset $prompt $reset"
 export PS2="\[$ORANGE\]→ \[$RESET\]"
