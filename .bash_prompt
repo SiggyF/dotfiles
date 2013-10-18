@@ -63,6 +63,12 @@ function updateprompt() {
         smiley="\[$ORANGE\]:(\[$RESET\]"
     fi
 
+
+    if [ -z "$VIRTUAL_ENV_DISABLE_PROMPT" ] ; then
+        virtualenv="\[$PURPLE\]$(basename "$VIRTUAL_ENV")"
+    fi
+
+
     # A list of running processes
     # TODO better cleanup list
     processes=$(ps -o fname= | sed 's/\(ps\|bash\|sed\)//g')
@@ -98,7 +104,7 @@ function updateprompt() {
     # No smiley in emacs
     [[ ! -v COLORTERM ]] && smiley=
     # Now set the prompts
-    export PS1="$smiley $history $user $host$reset $dir$reset $gitinfo$reset $jobs$reset $date$reset $prompt $reset"
+    export PS1="$smiley $virtualenv$reset $history $user $host$reset $dir$reset $gitinfo$reset $jobs$reset $date$reset $prompt $reset"
     export PS2="\[$ORANGE\]→ \[$RESET\]"
 }
 
