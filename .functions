@@ -1,3 +1,5 @@
+# -*- mode: sh; -*-
+
 # Simple calculator
 function calc() {
         local result=""
