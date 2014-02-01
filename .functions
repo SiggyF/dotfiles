@@ -263,3 +263,8 @@ function svnfixmime() {
     find . -name '*.css' -exec svn propset svn:mime-type text/css {} \;
     find . -name '*.js' -exec svn propset svn:mime-type application/javascript {} \;
 }
+
+
+function scandisks() {
+    sudo sh -c 'echo "- - -" > /sys/class/scsi_host/host0/scan'
+}
