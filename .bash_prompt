@@ -100,9 +100,9 @@ function updateprompt() {
 
     # The window title, only if running gnome-terminal
     # TODO: check for capable terminal
-    [[ -v COLORTERM ]] && echo -ne "\033]0;${PWD}:$processes\007"
+    [[ x$COLORTERM  != x ]] && echo -ne "\033]0;${PWD}:$processes\007"
     # No smiley in emacs
-    [[ ! -v COLORTERM ]] && smiley=
+    [[ x$COLORTERM == x ]] && smiley=
     # Now set the prompts
     export PS1="$smiley $virtualenv$reset $history $user $host$reset $dir$reset $gitinfo$reset $jobs$reset $date$reset $prompt $reset"
     export PS2="\[$ORANGE\]→ \[$RESET\]"
