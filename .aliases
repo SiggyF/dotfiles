@@ -8,7 +8,7 @@ alias .....="cd ../../../.."
 
 # Shortcuts
 alias e="emacsclient -n"
-alias nb="ipython notebook --pylab=inline --script"
+alias nb="ipython notebook"
 
 alias mysqlstart='sudo mysqld_safe'
 alias mysqlstop='mysqladmin -u root -p shutdown'
