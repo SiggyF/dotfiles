@@ -1,2 +1,8 @@
 # -*- mode: sh; -*-
+
 export LD_LIBRARY_PATH=~/.local/lib:$LD_LIBRARY_PATH
+
+if command -v lesspipe > /dev/null 2>&1
+then
+    eval "$(lesspipe)"
+fi

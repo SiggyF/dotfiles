@@ -1,0 +1,30 @@
+#!/bin/sh
+# -*- mode: sh; -*-
+
+
+# show directory as listing
+if test -d "$1"; then
+    /bin/ls -alF -- "$1"
+
+    # we handled this one ourself
+    exit 0
+fi
+
+case "$1" in
+    *.nc)
+        ncdump -h "$1"
+        ;;
+    *.h5)
+        h5dump -H "$1"
+        ;;
+    *.o)
+        nm "$1"
+        ;;
+    *)
+        # We don't handle this format.
+        exit 1
+esac
+
+
+# No further processing by lesspipe necessary
+exit 0
