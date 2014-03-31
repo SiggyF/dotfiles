@@ -7,7 +7,7 @@ alias ....="cd ../../.."
 alias .....="cd ../../../.."
 
 # Shortcuts
-alias e="emacsclient -n"
+alias e="emacsclient --alternate-editor emacs -n"
 alias nb="ipython notebook"
 
 alias mysqlstart='sudo mysqld_safe'
@@ -59,7 +59,7 @@ alias whois="whois -h whois-servers.net"
 alias flush="dscacheutil -flushcache && killall -HUP mDNSResponder"
 
 # View HTTP traffic
-alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
+alias sniff="sudo ngrep -d 'eth0' -t '^(GET|POST) ' 'tcp and port 80'"
 alias httpdump="sudo tcpdump -i en1 -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
 
 

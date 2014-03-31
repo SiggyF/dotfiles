@@ -1,6 +1,6 @@
 #!/bin/sh
 # -*- mode: sh; -*-
-
+trap 'exit 0' PIPE
 
 # show directory as listing
 if test -d "$1"; then
@@ -11,15 +11,148 @@ if test -d "$1"; then
 fi
 
 case "$1" in
+    ### Data ###
     *.nc)
         ncdump -h "$1"
         ;;
     *.h5)
         h5dump -H "$1"
         ;;
+    *.tiff|*.tif|*.asc)
+        gdalinfo "$1"
+        ;;
+
+    ### Doc files ###
+    *.[0-9n]|*.man|\
+        *.[0-9n].bz2|*.man.bz2|\
+        *.[0-9n].gz|*.man.gz|\
+        *.[0-9n].lzma|*.man.lzma|\
+        *.[0-9n].xz|*.man.xz|\
+        *.[0-9][a-z].gz|*.[0-9][a-z].gz)
+        local out=$(${DECOMPRESSOR} -- "$1" | file -)
+        case ${out} in
+            *troff*)
+                # Need to make sure we pass path to man or it will try
+                # to locate "$1" in the man search paths
+                if [[ $1 == /* ]] ; then
+                    man -- "$1"
+                else
+                    man -- "./$1"
+                fi
+                ;;
+            *text*)
+                ${DECOMPRESSOR} -- "$1"
+                ;;
+            *)
+                # We could have matched a library (libc.so.6), so let
+                # `file` figure out what the hell this thing is
+                lesspipe_file "$1"
+                ;;
+        esac
+        ;;
+    *.dvi)      dvi2tty "$1" ;;
+    *.ps|*.pdf) ps2ascii "$1" || pstotext "$1" || pdftotext "$1" ;;
+    *.doc)      antiword "$1" || catdoc "$1" ;;
+    *.rtf)      unrtf --nopict --text "$1" ;;
+    *.conf|*.txt|*.log) ;; # force less to work on these directly #150256
+
+    ### URLs ###
+    ftp://*|http://*|*.htm|*.html)
+        for b in links2 links lynx ; do
+            ${b} -dump "$1" && exit 0
+        done
+        html2text -style pretty "$1"
+        ;;
+
+    ### Tar files ###
+    *.tar|\
+        *.tar.bz2|*.tar.bz|*.tar.gz|*.tar.z|\
+        *.tar.lz|*.tar.tlz|\
+        *.tar.lzma|*.tar.xz)
+        ${DECOMPRESSOR} -- "$1" | tar tvvf -;;
+    *.tbz2|*.tbz|*.tgz|*.tlz|*.txz)
+        lesspipe "$1" "$1".tar.${1##*.t} ;;
+
+    ### Misc archives ###
+    *.bz2|\
+        *.gz|*.z|\
+        *.lz|\
+        *.lzma|*.xz)  ${DECOMPRESSOR} -- "$1" ;;
+    *.rpm)        rpm -qpivl --changelog -- "$1" || rpm2tar -O "$1" | tar tvvf -;;
+    *.cpi|*.cpio) cpio -itv < "$1" ;;
+    *.ace)        unace l "$1" ;;
+    *.arc)        arc v "$1" ;;
+    *.arj)        unarj l -- "$1" ;;
+    *.cab)        cabextract -l -- "$1" ;;
+    *.lha|*.lzh)  lha v "$1" ;;
+    *.zoo)        zoo -list "$1" || unzoo -l "$1" ;;
+    *.7z|*.exe)   7z l -- "$1" || 7za l -- "$1" || 7zr l -- "$1" ;;
+    *.a)          ar tv "$1" ;;
+    *.elf)        readelf -a -W -- "$1" ;;
+    *.so)         readelf -h -d -s -W -- "$1" ;;
+    *.mo|*.gmo)   msgunfmt -- "$1" ;;
+
+    *.rar|.r[0-9][0-9])  unrar l -- "$1" ;;
+
+    *.jar|*.war|*.ear|*.xpi|*.zip)
+        unzip -v "$1" || miniunzip -l "$1" || miniunz -l "$1" || zipinfo -v "$1"
+        ;;
+
+    *.deb|*.udeb)
+        if type -P dpkg > /dev/null ; then
+            dpkg --info "$1"
+            dpkg --contents "$1"
+        else
+            ar tv "$1"
+            ar p "$1" data.tar.gz | tar tzvvf -
+        fi
+        ;;
+    ### binary stuff ###
     *.o)
         nm "$1"
         ;;
+
+
+    *.f90|*.c|*.cxx|*.cpp|*.h|*.py)
+        pygmentize "$1"
+        ;;
+
+
+    ### Media ###
+    *.bmp|*.gif|*.jpeg|*.jpg|*.ico|*.pcd|*.pcx|*.png|*.ppm|*.tga|*.webp)
+        identify "$1" || file -L -- "$1"
+        ;;
+    *.asf|*.avi|*.mov|*.mp4|*.mpeg|*.mpg|*.qt|*.ram|*.rm|*.webm|*.wmv)
+        midentify "$1" || file -L -- "$1"
+        ;;
+    *.mp3)        mp3info "$1" || id3info "$1" ;;
+    *.ogg)        ogginfo "$1" ;;
+    *.flac)       metaflac --list "$1" ;;
+    *.torrent)    torrentinfo "$1" || torrentinfo-console "$1" || ctorrent -x "$1" ;;
+    *.bin|*.cue|*.raw)
+        # not all .bin/.raw files are cd images #285507
+        # fall back to lesspipe_file if .cue doesn't exist, or if
+        # cd-info failed to parse things sanely
+        [[ -e ${1%.*}.cue ]] \
+            && cd-info --no-header --no-device-info "$1" \
+            || lesspipe_file "$1"
+        ;;
+    *.iso)
+        iso_info=$(isoinfo -d -i "$1")
+        echo "${iso_info}"
+        # Joliet output overrides Rock Ridge, so prefer the better Rock
+        case ${iso_info} in
+            *$'\n'"Rock Ridge"*) iso_opts="-R";;
+            *$'\n'"Joliet"*)     iso_opts="-J";;
+            *)                   iso_opts="";;
+        esac
+        isoinfo -l ${iso_opts} -i "$1"
+        ;;
+
+    ### Encryption stuff ###
+    *.crl) openssl crl -hash -text -noout -in "$1" ;;
+    *.csr) openssl req -text -noout -in "$1" ;;
+    *.crt|*.pem) openssl x509 -hash -text -noout -in "$1" ;;
     *)
         # We don't handle this format.
         exit 1
