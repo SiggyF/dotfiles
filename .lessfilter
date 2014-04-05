@@ -112,8 +112,8 @@ case "$1" in
         nm "$1"
         ;;
 
-
-    *.f90|*.c|*.cxx|*.cpp|*.h|*.py)
+    ### Source code
+    *.f90|*.c|*.cxx|*.cpp|*.h|*.py|*.el|*.R|*.js)
         pygmentize "$1"
         ;;
 
