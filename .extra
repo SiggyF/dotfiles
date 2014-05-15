@@ -1,19 +1,23 @@
+# -*- mode: sh; -*-
+
 DEBEMAIL="fedor.baart@deltares.nl"
 DEBFULLNAME="Fedor Baart"
 export DEBEMAIL DEBFULLNAME
 export BIBINPUTS=~/Checkouts/bibliography
 export SUBGRID_PATH=~/.local/lib
-export SCENARIO_BASEDIR=/home/fedor/Checkouts/models/
+export SCENARIO_BASEDIR=/home/fedor/models
 
 # NPM packages in homedir
 export NPM_PACKAGES="$HOME/.npm-packages"
-
 # Tell our environment about user-installed node tools
 export PATH="$PATH:$NPM_PACKAGES/bin"
-
-# Unset manpath so we can inherit from /etc/manpath via the `manpath` command
-# unset MANPATH  # delete if you already modified MANPATH elsewhere in your config
-export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
-
 # Tell Node about these packages
 export NODE_PATH="$NODE_PATH:$NPM_PACKAGES/lib/node_modules"
+# Unset manpath so we can inherit from /etc/manpath via the `manpath` command
+# unset MANPATH  # delete if you already modified MANPATH elsewhere in your config
+# export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
+
+if [ -f $HOME/.rvm/scripts/rvm ]
+then
+        source $HOME/.rvm/scripts/rvm
+fi
