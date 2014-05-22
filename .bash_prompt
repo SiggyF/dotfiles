@@ -71,7 +71,13 @@ function updateprompt() {
 
     # A list of running processes
     # TODO better cleanup list
-    processes=$(ps -o fname= | sed 's/\(ps\|bash\|sed\)//g')
+    # if that works
+    if [ ps -o fname &> /dev/null ]
+    then
+        processes=""
+    else
+        processes=$(ps -o fname= | sed 's/\(ps\|bash\|sed\)//g')
+    fi
 
     # If we have git, check the status of the current directory
     # Don't do this with svn, too slow
