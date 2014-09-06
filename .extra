@@ -5,7 +5,7 @@ DEBFULLNAME="Fedor Baart"
 export DEBEMAIL DEBFULLNAME
 export BIBINPUTS=~/Checkouts/bibliography
 export SUBGRID_PATH=~/.local/lib
-export SCENARIO_BASEDIR=/home/fedor/models
+export SCENARIO_BASEDIR=~/models
 
 # NPM packages in homedir
 export NPM_PACKAGES="$HOME/.npm-packages"
