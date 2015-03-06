@@ -1,5 +1,11 @@
 # -*- mode: sh; -*-
 
+
+# Check for shellshock vulnerability
+function shellshock() {
+    env x='() { :;}; echo vulnerable' bash -c "echo this is a test";
+}
+
 # Simple calculator
 function calc() {
         local result=""
@@ -268,3 +274,9 @@ function svnfixmime() {
 function scandisks() {
     sudo sh -c 'echo "- - -" > /sys/class/scsi_host/host0/scan'
 }
+
+function dos2unixpath(){
+    # Replace \ by / and space by \space
+    # breaks for filenames using >1 spaces
+    echo $1 | sed 's#\\#/#g' | sed 's#[ ]#\\ #g';
+};
