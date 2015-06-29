@@ -3,7 +3,7 @@
 export PATH="$HOME/.local/bin:$PATH"
 
 # ruby gems
-[ -d ~/.gem/ruby/1.8/bin ] && export PATH=$PATH:~/.gem/ruby/1.8/bin
+[ -d ~/.rvm/bin ] && export PATH=$PATH:~/.rvm/bin
 
 # add commands like cv etc...
 [ -f /usr/share/doc/cdargs/examples/cdargs-bash.sh ] && source /usr/share/doc/cdargs/examples/cdargs-bash.sh
@@ -19,3 +19,6 @@ export PATH="$HOME/.local/bin:$PATH"
 
 # Add node
 [ -d ~/node_modules/.bin ] && export PATH=$PATH:~/node_modules/.bin
+
+# add npm packages bins
+[ -d ~/.npm-packages/bin ] && export PATH=$PATH:~/.npm-packages/bin

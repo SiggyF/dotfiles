@@ -1,5 +1,11 @@
 # -*- mode: sh; -*-
 
+
+# Check for shellshock vulnerability
+function shellshock() {
+    env x='() { :;}; echo vulnerable' bash -c "echo this is a test";
+}
+
 # Simple calculator
 function calc() {
         local result=""
@@ -278,3 +284,10 @@ function virus() {
     sudo launchctl load /Library/LaunchDaemons/com.f-secure.fsavd.plist
     sudo launchctl load /Library/LaunchDaemons/com.f-secure.fsmac.firewall.plist
 }
+
+function dos2unixpath(){
+    # Replace \ by / and space by \space
+    # breaks for filenames using >1 spaces
+    echo $1 | sed 's#\\#/#g' | sed 's#[ ]#\\ #g';
+};
+
