@@ -25,12 +25,13 @@ complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes Syste
 
 
 # Use emacs-app from macports if available
-if [ -f /Applications/MacPorts/Emacs.app/Contents/MacOS/Emacs ]
+if [ -d /Applications/MacPorts/Emacs.app/Contents/MacOS ]
 then
-    emacsapp=/Applications/MacPorts/Emacs.app/Contents/MacOS/Emacs
-    alias emacs=$emacsapp
-    alias e="emacsclient --alternate-editor $emacsapp -n"
+    alias emacsd="/Applications/MacPorts/Emacs.app/Contents/MacOS/Emacs --daemon"
+    alias e='/Applications/MacPorts/Emacs.app/Contents/MacOS/bin/emacsclient -c -n "$@"'
 fi
+alias eskill="emacsclient -e '(client-save-kill-emacs)'"
+alias ekill=" emacsclient -e '(kill-emacs)'"
 
 export ETS_TOOLKIT=qt4
 if [ -f /opt/local/bin/lesspipe.sh ]
