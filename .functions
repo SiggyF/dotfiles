@@ -275,8 +275,19 @@ function scandisks() {
     sudo sh -c 'echo "- - -" > /sys/class/scsi_host/host0/scan'
 }
 
+function novirus() {
+    sudo launchctl unload /Library/LaunchDaemons/com.f-secure.fsavd.plist
+    sudo launchctl unload /Library/LaunchDaemons/com.f-secure.fsmac.firewall.plist
+}
+
+function virus() {
+    sudo launchctl load /Library/LaunchDaemons/com.f-secure.fsavd.plist
+    sudo launchctl load /Library/LaunchDaemons/com.f-secure.fsmac.firewall.plist
+}
+
 function dos2unixpath(){
     # Replace \ by / and space by \space
     # breaks for filenames using >1 spaces
     echo $1 | sed 's#\\#/#g' | sed 's#[ ]#\\ #g';
 };
+
