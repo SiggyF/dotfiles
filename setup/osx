@@ -622,10 +622,12 @@ defaults write com.twitter.twitter-mac ShowFullNames -bool true
 # Hide the app in the background if it’s not the front-most window
 defaults write com.twitter.twitter-mac HideInBackground -bool true
 
+defaults write -app Skim SKAutoReloadFileUpdate -boolean true
+
+
 ###############################################################################
 # Kill affected applications                                                  #
 ###############################################################################
-
 for app in "Address Book" "Calendar" "Contacts" "Dashboard" "Dock" "Finder" \
         "Mail" "Safari" "SizeUp" "SystemUIServer" "Terminal" "Transmission" \
         "Twitter" "iCal" "iTunes"; do

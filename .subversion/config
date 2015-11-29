@@ -108,7 +108,7 @@ global-ignores = *.o *.lo *.la *.al .libs .deps  Makefile Makefile.in configure 
 ### provide hints to Subversion's MIME type auto-detection
 ### algorithm.
 # mime-types-file = /path/to/mime.types
-mime-types-file = /etc/mime.types
+# mime-types-file = /etc/mime.types
 ### Set preserved-conflict-file-exts to a whitespace-delimited
 ### list of patterns matching file extensions which should be
 ### preserved in generated conflict file names.  By default,
