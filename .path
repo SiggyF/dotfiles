@@ -18,6 +18,8 @@
 [ -d /Applications/MATLAB_R2015a.app ] && export PATH=$PATH:/Applications/MATLAB_R2015a.app/bin
 [ -d /Applications/MATLAB_R2015b.app ] && export PATH=$PATH:/Applications/MATLAB_R2015a.app/bin
 
+[ -d /opt/vagrant/bin ] && export PATH=$PATH:/opt/vagrant/bin
+
 # Add latex stuff (at the end, so we don't use macports version)
 [ -d /usr/texbin ] && export PATH=/usr/texbin:$PATH
 

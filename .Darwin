@@ -44,7 +44,11 @@ alias eskill="emacsclient -e '(client-save-kill-emacs)'"
 alias ekill=" emacsclient -e '(kill-emacs)'"
 
 export ETS_TOOLKIT=qt4
-if [ -f /opt/local/bin/lesspipe.sh ]
+
+if [ -f ~/.lessfilter ]
+then
+   export LESSOPEN='| ~/.lessfilter %s'
+elif [ -f /opt/local/bin/lesspipe.sh ]
 then
     export LESSOPEN='| /opt/local/bin/lesspipe.sh %s'
 fi
