@@ -52,3 +52,11 @@ elif [ -f /opt/local/bin/lesspipe.sh ]
 then
     export LESSOPEN='| /opt/local/bin/lesspipe.sh %s'
 fi
+
+if [ -d ~/opt/google-cloud-sdk]
+then
+    # The next line updates PATH for the Google Cloud SDK.
+    source '/Users/baart_f/opt/google-cloud-sdk/path.bash.inc'
+    # The next line enables shell command completion for gcloud.
+    source '/Users/baart_f/opt/google-cloud-sdk/completion.bash.inc'
+fi
