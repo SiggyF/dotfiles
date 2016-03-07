@@ -57,7 +57,7 @@ case "$1" in
     *.conf|*.txt|*.log) ;; # force less to work on these directly #150256
 
     ### URLs ###
-    ftp://*|http://*|*.htm|*.html)
+    ftp://*|http://*)
         for b in links2 links lynx ; do
             ${b} -dump "$1" && exit 0
         done
@@ -113,8 +113,14 @@ case "$1" in
         ;;
 
     ### Source code
-    *.f90|*.c|*.cxx|*.cpp|*.h|*.py|*.el|*.R|*.js)
-        pygmentize "$1"
+    *.f90|*.c|*.cxx|*.cpp|*.h|*.py|*.el|*.R|*.js|*.html|*.html|*.css|*.sass)
+        if hash pygmentize 2> /dev/null;
+        then
+            pygmentize "$1"
+        else
+            # pygmentize is not available
+            exit 1
+        fi
         ;;
 
 
