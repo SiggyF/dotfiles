@@ -2,23 +2,11 @@
 
 # prepend path with optional paths
 
-# Add macports stuff
-[ -d /opt/local ] && export PATH=/opt/local/bin:/opt/local/sbin:$PATH
-
 # ruby gems
 [ -d ~/.rvm/bin ] && export PATH=~/.rvm/bin:$PATH
 
 # add commands like cv etc...
 [ -f /usr/share/doc/cdargs/examples/cdargs-bash.sh ] && source /usr/share/doc/cdargs/examples/cdargs-bash.sh
-
-# Matlab, at the end
-[ -d /Applications/MATLAB_R2012a.app ] && export PATH=$PATH:/Applications/MATLAB_R2012a.app/bin
-[ -d /Applications/MATLAB_R2013a.app ] && export PATH=$PATH:/Applications/MATLAB_R2013a.app/bin
-[ -d /Applications/MATLAB_R2014a.app ] && export PATH=$PATH:/Applications/MATLAB_R2014a.app/bin
-[ -d /Applications/MATLAB_R2015a.app ] && export PATH=$PATH:/Applications/MATLAB_R2015a.app/bin
-[ -d /Applications/MATLAB_R2015b.app ] && export PATH=$PATH:/Applications/MATLAB_R2015a.app/bin
-
-
 
 [ -d /opt/vagrant/bin ] && export PATH=$PATH:/opt/vagrant/bin
 
@@ -33,3 +21,12 @@
 
 # Add meteor (don't want it in /usr/local/bin)
 [ -d ~/.meteor ] && export PATH=$PATH:~/.meteor
+
+# google cloud has an odd directory
+if [ -d ~/opt/google-cloud-sdk ]
+then
+    # The next line updates PATH for the Google Cloud SDK.
+    source '~/opt/google-cloud-sdk/path.bash.inc'
+    # The next line enables shell command completion for gcloud.
+    source '~/opt/google-cloud-sdk/completion.bash.inc'
+fi

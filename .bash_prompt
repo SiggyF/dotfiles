@@ -84,7 +84,7 @@ function updateprompt() {
     if command -v git >/dev/null;
     then
         dirtyflag=$(
-            if [[ $(git status 2>/dev/null | tail -n1) != *"directory clean"* ]]; then
+            if [[ $(git status 2>/dev/null | tail -n1) != *"tree clean"* ]]; then
                 echo "*"
             fi
         )
@@ -102,7 +102,6 @@ function updateprompt() {
     # for humans $, for root #
     prompt="\[$WHITE\]\n\\$"
     date="\[$GREEN\]\t"
-    terminal="\[$GREEN\] $(echo -e "\u260F")\$(tty | sed s#\/dev\/##)"
     reset="\[\033[m\]" # the tput sgr0 reset is not working inside emacs
 
     # The window title, only if running gnome-terminal
@@ -111,7 +110,7 @@ function updateprompt() {
     # No smiley in emacs
     [[ x$COLORTERM == x ]] && smiley=
     # Now set the prompts
-    export PS1="$smiley $virtualenv$reset $history $user $host$reset$terminal$reset $dir$reset $gitinfo$reset $jobs$reset $date$reset $prompt $reset"
+    export PS1="$smiley $virtualenv$reset $history $user $host$reset $dir$reset $gitinfo$reset $jobs$reset $date$reset $prompt $reset"
     export PS2="\[$ORANGE\]→ \[$RESET\]"
 }
 

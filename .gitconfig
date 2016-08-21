@@ -75,3 +75,7 @@
 [user]
 	name = Fedor Baart
 	email = fedor.baart@deltares.nl
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	required = true

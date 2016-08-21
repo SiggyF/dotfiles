@@ -1,6 +1,20 @@
 # -*- mode: sh; -*-
 
+# All Mac specific stuff goes here....
+
+# Add macports stuff
+[ -d /opt/local ] && export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+
 export DYLD_LIBRARY_PATH=~/.local/lib:$DYLD_LIBRARY_PATH
+
+
+# Matlab, at the end
+[ -d /Applications/MATLAB_R2012a.app ] && export PATH=$PATH:/Applications/MATLAB_R2012a.app/bin
+[ -d /Applications/MATLAB_R2013a.app ] && export PATH=$PATH:/Applications/MATLAB_R2013a.app/bin
+[ -d /Applications/MATLAB_R2014a.app ] && export PATH=$PATH:/Applications/MATLAB_R2014a.app/bin
+[ -d /Applications/MATLAB_R2015a.app ] && export PATH=$PATH:/Applications/MATLAB_R2015a.app/bin
+[ -d /Applications/MATLAB_R2015b.app ] && export PATH=$PATH:/Applications/MATLAB_R2015a.app/bin
+
 
 # Setup bash completion
 [ -f /opt/local/etc/bash_completion ] && source /opt/local/etc/bash_completion
@@ -53,10 +67,8 @@ then
     export LESSOPEN='| /opt/local/bin/lesspipe.sh %s'
 fi
 
-if [ -d ~/opt/google-cloud-sdk ]
+# load amazon bash completions
+if [ -d ~/.virtualenvs/py27/bin/aws_bash_completer ]
 then
-    # The next line updates PATH for the Google Cloud SDK.
-    source '/Users/baart_f/opt/google-cloud-sdk/path.bash.inc'
-    # The next line enables shell command completion for gcloud.
-    source '/Users/baart_f/opt/google-cloud-sdk/completion.bash.inc'
+    source '~/.virtualenvs/py27/bin/aws_bash_completer'
 fi
