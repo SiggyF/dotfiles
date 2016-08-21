@@ -2,9 +2,6 @@
 
 # All Mac specific stuff goes here....
 
-# Add macports stuff
-[ -d /opt/local ] && export PATH=/opt/local/bin:/opt/local/sbin:$PATH
-
 export DYLD_LIBRARY_PATH=~/.local/lib:$DYLD_LIBRARY_PATH
 
 

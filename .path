@@ -1,6 +1,10 @@
 # -*- mode: sh; -*-
 
-# prepend path with optional paths
+# prepend path with optional path
+
+# Add macports stuff if available (system path so should go before other stuff, and can't be in .Darwin)
+[ -d /opt/local ] && export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+
 
 # ruby gems
 [ -d ~/.rvm/bin ] && export PATH=~/.rvm/bin:$PATH
