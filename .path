@@ -16,6 +16,7 @@
 
 # Add latex stuff (at the end, so we don't use macports version)
 [ -d /usr/texbin ] && export PATH=/usr/texbin:$PATH
+[ -d /Library/TeX/texbin ] && export PATH=/Library/TeX/texbin:$PATH
 
 # add npm packages bins
 [ -d ~/.npm-packages/bin ] && export PATH=~/.npm-packages/bin:$PATH
