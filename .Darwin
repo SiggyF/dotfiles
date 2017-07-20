@@ -12,6 +12,8 @@ export DYLD_LIBRARY_PATH=~/.local/lib:$DYLD_LIBRARY_PATH
 [ -d /Applications/MATLAB_R2015a.app ] && export PATH=$PATH:/Applications/MATLAB_R2015a.app/bin
 [ -d /Applications/MATLAB_R2015b.app ] && export PATH=$PATH:/Applications/MATLAB_R2015a.app/bin
 
+# CUDA
+[ -d /Developer/NVIDIA/CUDA-6.5 ] && export PATH=$PATH:/Developer/NVIDIA/CUDA-6.5/bin
 
 # Setup bash completion
 [ -f /opt/local/etc/bash_completion ] && source /opt/local/etc/bash_completion

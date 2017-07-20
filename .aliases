@@ -8,7 +8,7 @@ alias .....="cd ../../../.."
 
 # Shortcuts
 alias e="emacsclient --alternate-editor emacs -n"
-alias nb="ipython notebook"
+alias nb="jupyter notebook"
 
 alias mysqlstart='sudo mysqld_safe'
 alias mysqlstop='mysqladmin -u root -p shutdown'
@@ -82,4 +82,3 @@ alias map="xargs -n1"
 
 # don't bother me
 alias R='R --no-save'
-
