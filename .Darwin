@@ -38,6 +38,7 @@ then
     export PATH=$PATH:~/Library/Python/2.7/bin
     source ~/Library/Python/2.7/bin/virtualenvwrapper_lazy.sh
 elif [ -f /opt/local/bin/virtualenvwrapper.sh-3.6 ]
+then
      export VIRTUALENVWRAPPER_PYTHON='/opt/local/bin/python3.6'
      export VIRTUALENVWRAPPER_VIRTUALENV='/opt/local/bin/virtualenv-3.6'
      export VIRTUALENVWRAPPER_VIRTUALENV_CLONE='/opt/local/bin/virtualenv-clone-3.6'
