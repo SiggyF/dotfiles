@@ -2,6 +2,9 @@
 
 # prepend path with optional path
 
+# add anaconda3
+[ -d ~/anaconda3/bin ] && export PATH=~/anaconda3/bin:$PATH
+
 # Add macports stuff if available (system path so should go before other stuff, and can't be in .Darwin)
 [ -d /opt/local ] && export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 
