@@ -11,6 +11,8 @@
 
 # ruby gems
 [ -d ~/.rvm/bin ] && export PATH=~/.rvm/bin:$PATH
+# Load RVM into a shell session *as a function*
+[[ -s ~/.rvm/scripts/rvm ]] && source ~/.rvm/scripts/rvm
 
 # add commands like cv etc...
 [ -f /usr/share/doc/cdargs/examples/cdargs-bash.sh ] && source /usr/share/doc/cdargs/examples/cdargs-bash.sh
