@@ -8,6 +8,7 @@
 # Add macports stuff if available (system path so should go before other stuff, and can't be in .Darwin)
 [ -d /opt/local ] && export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 
+[ -d ~/.local/google-cloud-sdk/bin ] && export PATH=~/.local/google-cloud-sdk/bin:$PATH
 
 # ruby gems
 [ -d ~/.rvm/bin ] && export PATH=~/.rvm/bin:$PATH
