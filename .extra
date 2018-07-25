@@ -3,7 +3,6 @@
 DEBEMAIL="fedor.baart@deltares.nl"
 DEBFULLNAME="Fedor Baart"
 export DEBEMAIL DEBFULLNAME
-export BIBINPUTS=~/Checkouts/bibliography
 export SUBGRID_PATH=~/.local/lib
 export SCENARIO_BASEDIR=~/models
 
